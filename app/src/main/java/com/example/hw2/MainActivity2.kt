@@ -1,6 +1,7 @@
 package com.example.hw2
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -25,7 +26,7 @@ class MainActivity2 : AppCompatActivity() {
         val urlBuilder = "http://10.0.2.2/app/read.php".toHttpUrlOrNull()
             ?.newBuilder()
             ?.addQueryParameter("title", "st")
-            ?.addQueryParameter("limit", "5")
+            ?.addQueryParameter("limit", "20")
         val url = urlBuilder?.build().toString()
         val request = Request.Builder()
             .url(url)
@@ -73,6 +74,12 @@ class MainActivity2 : AppCompatActivity() {
                         val simpleAdapter = SimpleAdapter(this@MainActivity2, grid, R.layout.grid_item, fromData, toData)
                         gridView.adapter = simpleAdapter
 
+                        gridView.setOnItemClickListener { adapterView, view, i, l ->
+                            val intent = Intent()
+                            intent.setClass(this@MainActivity2, MainActivity::class.java)
+                            startActivity(intent)
+                        }
+
                     }
                 }
                 else{
@@ -92,7 +99,7 @@ class MainActivity2 : AppCompatActivity() {
                 val urlBuilder = "http://10.0.2.2/app/read.php".toHttpUrlOrNull()
                     ?.newBuilder()
                     ?.addQueryParameter("title", "st")
-                    ?.addQueryParameter("limit", "5")
+                    ?.addQueryParameter("limit", "20")
                 val request = Request.Builder()
                     .url(url)
                     .build()
@@ -139,7 +146,11 @@ class MainActivity2 : AppCompatActivity() {
                                 val toData = intArrayOf(R.id.textView6)
                                 val simpleAdapter = SimpleAdapter(this@MainActivity2, grid, R.layout.grid_item, fromData, toData)
                                 gridView.adapter = simpleAdapter
-
+                                gridView.setOnItemClickListener { adapterView, view, i, l ->
+                                    val intent = Intent()
+                                    intent.setClass(this@MainActivity2, MainActivity::class.java)
+                                    startActivity(intent)
+                                }
                             }
                         }
                         else{

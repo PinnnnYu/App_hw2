@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val urlBuilder = "http://10.0.2.2/app/read.php".toHttpUrlOrNull()
             ?.newBuilder()
             ?.addQueryParameter("title", "st")
-            ?.addQueryParameter("limit", "5")
+            ?.addQueryParameter("limit", "20")
         val url = urlBuilder?.build().toString()
         val request = Request.Builder()
             .url(url)
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent()
             intent.setClass(this, MainActivity2::class.java)
             startActivity(intent)
-            startActivity(Intent(this,MainActivity2::class.java))
+
 
 
         }
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                 val urlBuilder = "http://10.0.2.2/app/read.php".toHttpUrlOrNull()
                     ?.newBuilder()
                     ?.addQueryParameter("title", "st")
-                    ?.addQueryParameter("limit", "5")
+                    ?.addQueryParameter("limit", "20")
                 val request = Request.Builder()
                     .url(url)
                     .build()
