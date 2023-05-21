@@ -16,8 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //OkHttp調用
-
+        // OkHttp調用
         /*
         //Get api
         val client = OkHttpClient()
@@ -67,13 +66,15 @@ class MainActivity : AppCompatActivity() {
         })
         */
 
-        //Post api
+
+        //設定變數
         val send = findViewById<Button>(R.id.button)
         val date = findViewById<TextView>(R.id.editTextTextPersonName)
         val title = findViewById<TextView>(R.id.editTextTextPersonName2)
         val content = findViewById<TextView>(R.id.editTextTextPersonName3)
 
-
+        // 當 button 按下時，將資料透過 Post api，建立到資料庫，
+        // 並跳到 MainActivity2 (代表備忘錄主頁)
         send.setOnClickListener {
             val postDate = date.text.toString()
             println("postDate--------${postDate}")
@@ -92,31 +93,32 @@ class MainActivity : AppCompatActivity() {
                 .url("http://10.0.2.2/app/insert.php")
                 .post(responseBody)
                 .build()
-
             clientPost.newCall(requestPost).enqueue(object : Callback{
                 override fun onFailure(call: Call, e: IOException) {
                     e.printStackTrace()
                 }
-
                 override fun onResponse(call: Call, response: Response) {
                     val responseBody = response.body?.string()
                     println("POST--------${responseBody}")
                 }
             })
+
+
             val intent = Intent()
             intent.setClass(this, MainActivity2::class.java)
             startActivity(intent)
-
-
-
         }
-        //判斷Intent 不為空，檢查是否有帶入資料
+
+
+
+
+        // 接收 MainActivity2 傳來的資料
+        // 且由於傳過來的資料是 Hashmap 的形式，需用 get 取出資料
+        // 再用 split 的方式，擷取出 date, title, content分別的部分
+        // 並將資料印在 EditText上，以利更改資料
+        // 註：更改資料並更新資料庫的部分尚未完成
         intent?.extras?.let {
             val value = it.get("date").toString()
-            //println(value)
-            //println("0" + value.split(" ")[0].split("=")[1])
-            //println("1" + value.split(" ")[1])
-            //println("2" + value.split(" ")[2])
             date.setText(value.split(" ")[0].split("=")[1])
             title.setText(value.split(" ")[1])
             content.setText(value.split(" ")[2].split("}")[0])
