@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //OkHttp調用
+
+        /*
         //Get api
         val client = OkHttpClient()
         val urlBuilder = "http://10.0.2.2/app/read.php".toHttpUrlOrNull()
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
+        */
 
         //Post api
         val send = findViewById<Button>(R.id.button)
@@ -108,8 +110,19 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+        //判斷Intent 不為空，檢查是否有帶入資料
+        intent?.extras?.let {
+            val value = it.get("date").toString()
+            //println(value)
+            //println("0" + value.split(" ")[0].split("=")[1])
+            //println("1" + value.split(" ")[1])
+            //println("2" + value.split(" ")[2])
+            date.setText(value.split(" ")[0].split("=")[1])
+            title.setText(value.split(" ")[1])
+            content.setText(value.split(" ")[2].split("}")[0])
+        }
 
-
+        /*
         val timer = Timer()
         val timerTask = object : TimerTask(){
             override fun run(){
@@ -159,6 +172,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         timer.schedule(timerTask, 0, 5000)
+        */
 
 
     }

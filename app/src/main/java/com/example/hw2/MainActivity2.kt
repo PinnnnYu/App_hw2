@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.GridView
 import android.widget.SimpleAdapter
@@ -39,7 +40,7 @@ class MainActivity2 : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if(response.isSuccessful){
                     val responseBody = response.body?.string()
-                    println("-------${responseBody}")
+                    //println("-------${responseBody}")
 
                     val jsonObject = JSONObject(responseBody)
                     val dataArray = jsonObject.getJSONArray("data")
@@ -48,8 +49,6 @@ class MainActivity2 : AppCompatActivity() {
                         val gridView = findViewById<GridView>(R.id.gridView)
 
                         val grid = ArrayList<HashMap<String, Any>>()
-                        //val textView = findViewById<TextView>(R.id.textView6)
-                        //textView.text = ""
                         val list: MutableList<String> = ArrayList()
                         for (i in 0 until dataArray.length()){
                             val chatObject = dataArray.getJSONObject(i)
@@ -58,12 +57,8 @@ class MainActivity2 : AppCompatActivity() {
                             val date = chatObject.getString("date")
                             val title = chatObject.getString("title")
                             val content = chatObject.getString("content")
-                            /*textView.append("${date} ${timestamp}\n")
-                            textView.append("${title} ${content}\n")*/
-                            list.add("${date} ${timestamp} \n ${title} ${content}\n")
-
+                            list.add("${date}\n ${title} ${content}\n")
                         }
-
                         for (i in list.indices){
                             val map = HashMap<String, Any>()
                             map["title"] = list[i]
@@ -75,8 +70,10 @@ class MainActivity2 : AppCompatActivity() {
                         gridView.adapter = simpleAdapter
 
                         gridView.setOnItemClickListener { adapterView, view, i, l ->
+                            //println("i = ${grid[i]}")
                             val intent = Intent()
                             intent.setClass(this@MainActivity2, MainActivity::class.java)
+                            intent.putExtra("date",grid[i])
                             startActivity(intent)
                         }
 
@@ -110,7 +107,7 @@ class MainActivity2 : AppCompatActivity() {
                     override fun onResponse(call: Call, response: Response) {
                         if(response.isSuccessful){
                             val responseBody = response.body?.string()
-                            println("-------${responseBody}")
+                            //println("-------${responseBody}")
 
                             val jsonObject = JSONObject(responseBody)
                             val dataArray = jsonObject.getJSONArray("data")
@@ -132,7 +129,7 @@ class MainActivity2 : AppCompatActivity() {
                                     val content = chatObject.getString("content")
                                     /*textView.append("${date} ${timestamp}\n")
                                     textView.append("${title} ${content}\n")*/
-                                    list.add("${date} ${timestamp}\n ${title} ${content}\n")
+                                    list.add("${date}\n ${title} ${content}\n")
 
                                 }
 
@@ -147,8 +144,10 @@ class MainActivity2 : AppCompatActivity() {
                                 val simpleAdapter = SimpleAdapter(this@MainActivity2, grid, R.layout.grid_item, fromData, toData)
                                 gridView.adapter = simpleAdapter
                                 gridView.setOnItemClickListener { adapterView, view, i, l ->
+                                    //println("i = ${grid[i]}")
                                     val intent = Intent()
                                     intent.setClass(this@MainActivity2, MainActivity::class.java)
+                                    intent.putExtra("date",grid[i])
                                     startActivity(intent)
                                 }
                             }
@@ -166,6 +165,7 @@ class MainActivity2 : AppCompatActivity() {
         timer.schedule(timerTask, 0, 5000)
 
 
+        //找到欄位序列，並找到其資料傳回 MainActivity 以供編輯
 
 
 
